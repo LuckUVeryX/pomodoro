@@ -26,7 +26,9 @@ class AppRouterObserver extends AutoRouterObserver {
 
   @override
   void didReplace({Route? newRoute, Route? oldRoute}) {
-    appRouterLogger.i('Route replaced: [New] ${newRoute?.settings.name} [Old] ${oldRoute?.settings.name}');
+    appRouterLogger.i(
+      'Route replaced: [New] ${newRoute?.settings.name} [Old] ${oldRoute?.settings.name}',
+    );
   }
 
   @override
