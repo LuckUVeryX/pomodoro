@@ -1,13 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../preferences/app_preferences.dart';
+import '../../../router/app_router.gr.dart';
 import '../controllers/settings_controller.dart';
 import '../models/pomodoro_settings_model.dart';
 import 'widgets/widgets.dart';
 
 final _pomodoroSettingsNotifierProvider =
     StateNotifierProvider<PomodoroSettingsNotifier, PomodoroSettings>((ref) {
-  return PomodoroSettingsNotifier();
+  return PomodoroSettingsNotifier(ref.watch(appPreferenceProvider));
 });
 
 class SettingsPage extends StatelessWidget {
@@ -96,10 +99,17 @@ class SettingsPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Start'),
-              ),
+              child: Consumer(builder: (_, ref, __) {
+                return ElevatedButton(
+                  onPressed: () {
+                    ref
+                        .read(_pomodoroSettingsNotifierProvider.notifier)
+                        .saveSettings();
+                    context.replaceRoute(const PomodoroRoute());
+                  },
+                  child: const Text('Start'),
+                );
+              }),
             ),
           ],
         ),

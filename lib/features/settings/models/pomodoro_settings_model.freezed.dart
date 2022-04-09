@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PomodoroSettings _$PomodoroSettingsFromJson(Map<String, dynamic> json) {
+  return _PomodoroSettings.fromJson(json);
+}
+
 /// @nodoc
 class _$PomodoroSettingsTearOff {
   const _$PomodoroSettingsTearOff();
@@ -30,6 +34,10 @@ class _$PomodoroSettingsTearOff {
       pomodoroCount: pomodoroCount,
     );
   }
+
+  PomodoroSettings fromJson(Map<String, Object?> json) {
+    return PomodoroSettings.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -42,6 +50,7 @@ mixin _$PomodoroSettings {
   Duration get longBreakDuration => throw _privateConstructorUsedError;
   int get pomodoroCount => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PomodoroSettingsCopyWith<PomodoroSettings> get copyWith =>
       throw _privateConstructorUsedError;
@@ -150,13 +159,16 @@ class __$PomodoroSettingsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_PomodoroSettings implements _PomodoroSettings {
   const _$_PomodoroSettings(
       {required this.focusDuration,
       required this.shortBreakDuration,
       required this.longBreakDuration,
       required this.pomodoroCount});
+
+  factory _$_PomodoroSettings.fromJson(Map<String, dynamic> json) =>
+      _$$_PomodoroSettingsFromJson(json);
 
   @override
   final Duration focusDuration;
@@ -199,6 +211,11 @@ class _$_PomodoroSettings implements _PomodoroSettings {
   @override
   _$PomodoroSettingsCopyWith<_PomodoroSettings> get copyWith =>
       __$PomodoroSettingsCopyWithImpl<_PomodoroSettings>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PomodoroSettingsToJson(this);
+  }
 }
 
 abstract class _PomodoroSettings implements PomodoroSettings {
@@ -207,6 +224,9 @@ abstract class _PomodoroSettings implements PomodoroSettings {
       required Duration shortBreakDuration,
       required Duration longBreakDuration,
       required int pomodoroCount}) = _$_PomodoroSettings;
+
+  factory _PomodoroSettings.fromJson(Map<String, dynamic> json) =
+      _$_PomodoroSettings.fromJson;
 
   @override
   Duration get focusDuration;

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'pomodoro_settings_model.freezed.dart';
+part 'pomodoro_settings_model.g.dart';
 
 @freezed
 class PomodoroSettings with _$PomodoroSettings {
@@ -18,4 +19,7 @@ class PomodoroSettings with _$PomodoroSettings {
       pomodoroCount: 4,
     );
   }
+
+  factory PomodoroSettings.fromJson(Map<String, dynamic> json) =>
+      _$PomodoroSettingsFromJson(json);
 }
