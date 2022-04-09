@@ -4,12 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class PomodoroNumberSelector extends StatelessWidget {
   const PomodoroNumberSelector({
     Key? key,
+    required this.pomodoroCount,
     required this.decrementOnPressed,
     required this.incrementOnPressed,
   }) : super(key: key);
 
-  final VoidCallback decrementOnPressed;
-  final VoidCallback incrementOnPressed;
+  final int pomodoroCount;
+  final VoidCallback? decrementOnPressed;
+  final VoidCallback? incrementOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class PomodoroNumberSelector extends StatelessWidget {
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
-                '4',
+                pomodoroCount.toString(),
                 style: textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.bold,
@@ -51,7 +53,7 @@ class PomodoroNumberSelector extends StatelessWidget {
                 ),
                 const SizedBox(width: 24.0),
                 Text(
-                  '4',
+                  pomodoroCount.toString(),
                   style: textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -78,7 +80,7 @@ class _IncrementDecrementButton extends StatelessWidget {
   }) : super(key: key);
 
   final IconData iconData;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
