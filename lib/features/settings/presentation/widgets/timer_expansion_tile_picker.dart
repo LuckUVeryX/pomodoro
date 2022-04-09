@@ -17,13 +17,12 @@ class TimerExpansionTilePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.0),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      clipBehavior: Clip.antiAlias,
+      child: Theme(
+        data: theme.copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          collapsedBackgroundColor: theme.cardColor,
-          backgroundColor: theme.cardColor,
           childrenPadding: const EdgeInsets.only(bottom: 24.0),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +35,7 @@ class TimerExpansionTilePicker extends StatelessWidget {
               Text(
                 '${duration.inMinutes} min',
                 style: textTheme.titleMedium?.copyWith(
-                  color: theme.primaryColor,
+                  color: theme.colorScheme.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
