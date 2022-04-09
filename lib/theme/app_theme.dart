@@ -17,8 +17,9 @@ class AppTheme {
       colorScheme: _draculaColorScheme,
     ).copyWith(
       appBarTheme: AppBarTheme(
-        backgroundColor: _draculaColorScheme.background,
         elevation: 0,
+        centerTitle: false,
+        backgroundColor: _draculaColorScheme.background,
       ),
     );
   }
