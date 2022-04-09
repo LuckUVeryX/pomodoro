@@ -7,6 +7,9 @@ import '/utils/utils.dart';
 import 'router/router.dart';
 import 'theme/app_theme.dart';
 
+final _themeProvider = Provider<AppTheme>((ref) => AppTheme());
+final _loggerProvider = Provider<Logger>((ref) => AppLogger());
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -37,6 +40,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-final _themeProvider = Provider<AppTheme>((ref) => AppTheme());
-final _loggerProvider = Provider<Logger>((ref) => AppLogger());
