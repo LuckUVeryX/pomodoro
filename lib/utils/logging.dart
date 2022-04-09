@@ -1,9 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
-// * Logger
-final loggerProvider = Provider<Logger>((ref) => AppLogger());
-
 class AppLogger extends Logger {
   AppLogger()
       : super(
