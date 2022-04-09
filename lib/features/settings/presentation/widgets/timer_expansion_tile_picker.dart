@@ -47,7 +47,7 @@ class TimerExpansionTilePicker extends StatelessWidget {
               child: CupertinoTimerPicker(
                 onTimerDurationChanged: onTimerDurationChanged,
                 mode: CupertinoTimerPickerMode.hm,
-                initialTimerDuration: const Duration(minutes: 25),
+                initialTimerDuration: duration,
                 minuteInterval: 5,
               ),
             ),
