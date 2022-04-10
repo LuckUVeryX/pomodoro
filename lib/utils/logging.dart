@@ -1,6 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
+import '../features/pomodoro/controllers/pomodoro_notifier.dart';
+import '../features/pomodoro/model/pomodoro_model.dart';
+
 class AppLogger extends Logger {
   AppLogger()
       : super(
@@ -24,6 +27,16 @@ class ProviderLogObserver extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
+    if (provider.runtimeType ==
+        StateNotifierProvider<PomodoroNotifier, PomodoroModel>) {
+      _log.v(
+        '''
+  "provider": "${provider.name ?? provider.runtimeType}",
+  "newValue": "$newValue"''',
+      );
+      return;
+    }
+
     _log.d(
       '''
   "provider": "${provider.name ?? provider.runtimeType}",
