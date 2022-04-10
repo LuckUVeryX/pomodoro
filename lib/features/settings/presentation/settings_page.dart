@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../preferences/app_preferences.dart';
 import '../../../router/app_router.gr.dart';
-import '../controllers/settings_controller.dart';
+import '../controllers/pomodoro_settings_notifier.dart';
 import '../models/pomodoro_settings_model.dart';
 import 'widgets/widgets.dart';
 
