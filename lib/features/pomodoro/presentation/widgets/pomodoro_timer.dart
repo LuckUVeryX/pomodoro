@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 
+import '../../../../utils/utils.dart';
 import '../../controllers/pomodoro_notifier.dart';
 import '../../model/pomodoro_model.dart';
 
@@ -15,13 +17,22 @@ class PomodoroTimer extends ConsumerStatefulWidget {
 }
 
 class _PomodoroTimerState extends ConsumerState<PomodoroTimer>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final Ticker _ticker;
+  late final Logger _log;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+    _log = ref.read(loggerProvider);
     _ticker = createTicker(ref.read(pomodoroNotifierProvider.notifier).tick);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    _log.i(state);
   }
 
   @override
@@ -86,6 +97,7 @@ class _PomodoroTimerState extends ConsumerState<PomodoroTimer>
 
   @override
   void dispose() {
+    WidgetsBinding.instance?.addObserver(this);
     _ticker.dispose();
     super.dispose();
   }
