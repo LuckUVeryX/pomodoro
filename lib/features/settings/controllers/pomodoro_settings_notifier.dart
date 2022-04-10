@@ -10,6 +10,9 @@ class PomodoroSettingsNotifier extends StateNotifier<PomodoroSettings> {
 
   final AppPreferences pref;
 
+  static const _minPomodoroCount = 1;
+  static const _maxPomodoroCount = 12;
+
   void onFocusDurationChanged(Duration value) {
     state = state.copyWith(
       focusDuration: value,
@@ -31,12 +34,13 @@ class PomodoroSettingsNotifier extends StateNotifier<PomodoroSettings> {
     );
   }
 
-  void incrementPomodoros() {
-    state = state.copyWith(pomodoroCount: state.pomodoroCount + 1);
+  void Function()? get incrementPomodoros {
+    if (state.pomodoroCount >= _maxPomodoroCount) return null;
+    return () => state = state.copyWith(pomodoroCount: state.pomodoroCount + 1);
   }
 
   void Function()? get decrementPomodoros {
-    if (state.pomodoroCount <= 1) return null;
+    if (state.pomodoroCount <= _minPomodoroCount) return null;
 
     return () => state = state.copyWith(pomodoroCount: state.pomodoroCount - 1);
   }
