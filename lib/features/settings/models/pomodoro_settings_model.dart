@@ -9,6 +9,7 @@ class PomodoroSettings with _$PomodoroSettings {
     required Duration shortBreakDuration,
     required Duration longBreakDuration,
     required int pomodoroCount,
+    required PomodoroSettingsError settingsError,
   }) = _PomodoroSettings;
 
   factory PomodoroSettings.initial() {
@@ -17,9 +18,20 @@ class PomodoroSettings with _$PomodoroSettings {
       shortBreakDuration: Duration(minutes: 5),
       longBreakDuration: Duration(minutes: 15),
       pomodoroCount: 4,
+      settingsError: _None(),
     );
   }
 
   factory PomodoroSettings.fromJson(Map<String, dynamic> json) =>
       _$PomodoroSettingsFromJson(json);
+}
+
+@freezed
+@JsonSerializable(explicitToJson: true)
+class PomodoroSettingsError with _$PomodoroSettingsError {
+  const factory PomodoroSettingsError.none() = _None;
+  const factory PomodoroSettingsError.zeroDuration() = _ZeroDuration;
+
+  factory PomodoroSettingsError.fromJson(Map<String, dynamic> json) =>
+      _$PomodoroSettingsErrorFromJson(json);
 }

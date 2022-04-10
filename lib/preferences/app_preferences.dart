@@ -18,8 +18,8 @@ class AppPreferences {
 
   final SharedPreferences _pref;
 
-  void savePomodoroSettings(PomodoroSettings settings) {
-    _pref.setString(_pomodoroSettingsKey, jsonEncode(settings.toJson()));
+  Future<void> savePomodoroSettings(PomodoroSettings settings) async {
+    await _pref.setString(_pomodoroSettingsKey, jsonEncode(settings.toJson()));
   }
 
   PomodoroSettings? loadPomodoroSettings() {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../preferences/app_preferences.dart';
-import '../../../router/app_router.gr.dart';
+import '../../../router/router.dart';
 import '../controllers/pomodoro_settings_notifier.dart';
 import '../models/pomodoro_settings_model.dart';
 import 'widgets/widgets.dart';
@@ -96,17 +96,38 @@ class SettingsPage extends StatelessWidget {
                 ],
               ),
             ),
+            Consumer(
+              builder: (_, ref, __) {
+                final error = ref.watch(_pomodoroSettingsNotifierProvider
+                    .select((value) => value.settingsError));
+                return Text(
+                  error.when(
+                      none: () => '',
+                      zeroDuration: () => 'Duration cannot be set to 0'),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.error,
+                  ),
+                );
+              },
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               width: double.infinity,
               child: Consumer(builder: (_, ref, __) {
+                final settingsError = ref.watch(
+                    _pomodoroSettingsNotifierProvider
+                        .select((value) => value.settingsError));
+
                 return ElevatedButton(
-                  onPressed: () {
-                    ref
-                        .read(_pomodoroSettingsNotifierProvider.notifier)
-                        .saveSettings();
-                    context.replaceRoute(const PomodoroRoute());
-                  },
+                  onPressed: settingsError.when(
+                    none: () => () async {
+                      final res = await ref
+                          .read(_pomodoroSettingsNotifierProvider.notifier)
+                          .saveSettings();
+                      if (res) context.replaceRoute(const PomodoroRoute());
+                    },
+                    zeroDuration: () => null,
+                  ),
                   child: const Text('Start'),
                 );
               }),
