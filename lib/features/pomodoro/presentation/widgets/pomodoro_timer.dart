@@ -15,7 +15,7 @@ class PomodoroTimer extends ConsumerStatefulWidget {
 }
 
 class _PomodoroTimerState extends ConsumerState<PomodoroTimer>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+    with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
 
   @override
