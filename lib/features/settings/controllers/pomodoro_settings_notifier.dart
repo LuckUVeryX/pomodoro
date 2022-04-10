@@ -11,15 +11,24 @@ class PomodoroSettingsNotifier extends StateNotifier<PomodoroSettings> {
   final AppPreferences pref;
 
   void onFocusDurationChanged(Duration value) {
-    state = state.copyWith(focusDuration: value);
+    state = state.copyWith(
+      focusDuration: value,
+      settingsError: const PomodoroSettingsError.none(),
+    );
   }
 
   void onShortBreakDurationChanged(Duration value) {
-    state = state.copyWith(shortBreakDuration: value);
+    state = state.copyWith(
+      shortBreakDuration: value,
+      settingsError: const PomodoroSettingsError.none(),
+    );
   }
 
   void onLongBreakDurationChanged(Duration value) {
-    state = state.copyWith(longBreakDuration: value);
+    state = state.copyWith(
+      longBreakDuration: value,
+      settingsError: const PomodoroSettingsError.none(),
+    );
   }
 
   void incrementPomodoros() {
@@ -27,12 +36,21 @@ class PomodoroSettingsNotifier extends StateNotifier<PomodoroSettings> {
   }
 
   void Function()? get decrementPomodoros {
-    if (state.pomodoroCount <= 0) return null;
+    if (state.pomodoroCount <= 1) return null;
 
     return () => state = state.copyWith(pomodoroCount: state.pomodoroCount - 1);
   }
 
-  void saveSettings() {
-    pref.savePomodoroSettings(state);
+  Future<bool> saveSettings() async {
+    if (state.focusDuration == Duration.zero ||
+        state.shortBreakDuration == Duration.zero ||
+        state.longBreakDuration == Duration.zero) {
+      state = state.copyWith(
+          settingsError: const PomodoroSettingsError.zeroDuration());
+      return false;
+    } else {
+      await pref.savePomodoroSettings(state);
+      return true;
+    }
   }
 }
