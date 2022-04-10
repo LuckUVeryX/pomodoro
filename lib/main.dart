@@ -10,10 +10,10 @@ import 'router/router.dart';
 import 'theme/app_theme.dart';
 
 final _themeProvider = Provider<AppTheme>((ref) => AppTheme());
-final _loggerProvider = Provider<Logger>((ref) => AppLogger());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Logger.level = Level.debug;
   final pref = await SharedPreferences.getInstance();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -33,7 +33,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final log = ref.watch(_loggerProvider);
+    final log = ref.watch(loggerProvider);
     final theme = ref.watch(_themeProvider);
     final appPref = ref.watch(appPreferenceProvider);
     return MaterialApp.router(

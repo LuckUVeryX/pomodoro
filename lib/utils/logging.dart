@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 import '../features/pomodoro/controllers/pomodoro_notifier.dart';
 import '../features/pomodoro/model/pomodoro_model.dart';
 
+final loggerProvider = Provider<Logger>((ref) => AppLogger());
+
 class AppLogger extends Logger {
   AppLogger()
       : super(
