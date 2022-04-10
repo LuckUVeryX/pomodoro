@@ -1,28 +1,37 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../controllers/pomodoro_notifier.dart';
 import '../../model/pomodoro_model.dart';
 
-class PomodoroTimer extends HookConsumerWidget {
-  const PomodoroTimer({
-    Key? key,
-  }) : super(key: key);
+class PomodoroTimer extends ConsumerStatefulWidget {
+  const PomodoroTimer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ticker = useSingleTickerProvider()
-        .createTicker(ref.read(pomodoroNotifierProvider.notifier).tick);
+  ConsumerState<ConsumerStatefulWidget> createState() => _PomodoroTimerState();
+}
 
+class _PomodoroTimerState extends ConsumerState<PomodoroTimer>
+    with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker(ref.read(pomodoroNotifierProvider.notifier).tick);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen<PomodoroModel>(pomodoroNotifierProvider, (previous, next) {
       if (previous?.pomodoroTimerState != next.pomodoroTimerState) {
         next.pomodoroTimerState.when(
-          reset: ticker.stop,
-          running: ticker.start,
-          paused: ticker.stop,
+          reset: _ticker.stop,
+          running: _ticker.start,
+          paused: _ticker.stop,
         );
       }
     });
@@ -73,5 +82,11 @@ class PomodoroTimer extends HookConsumerWidget {
         }),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
   }
 }
